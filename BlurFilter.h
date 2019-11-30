@@ -2,19 +2,18 @@
 #include "ConvFilter.h"
 
 const int BLUR_SIZE = 3;
+const int BLUR_NORM = 9;
 
 class BlurFilter : public ConvFilter
 {
 private:
-	const int weights[BLUR_SIZE][BLUR_SIZE] =
-	{
-		{ 1, 1, 1},
-		{ 1, 1, 1},
-		{ 1, 1, 1}
-	};
-	const int norm = 9;
-	void calc(stbi_uc* point, stbi_uc* locality, int comp) override;
+    const int mat_[BLUR_SIZE][BLUR_SIZE] = {
+        { 1, 1, 1 },
+        { 1, 1, 1},
+        { 1, 1, 1}
+    };
+    int mat(size_t i, size_t j) override;
 public:
-	BlurFilter(int t, int l, int b, int r);
-	~BlurFilter() { };
+    BlurFilter(int t, int l, int b, int r);
+    ~BlurFilter() { }
 };

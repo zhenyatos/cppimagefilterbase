@@ -1,31 +1,18 @@
-#include <algorithm>
 #include "EdgeFilter.h"
+#include "BlWhFilter.h"
 
-void EdgeFilter::calc(stbi_uc* point, stbi_uc* locality, int comp)
+int EdgeFilter::mat(size_t i, size_t j)
 {
-	int temp = 0;
-	stbi_uc* iter;
-    temp = 0;
-    for (int i = 0; i < size_; i++)
-        for (int j = 0; j < size_; j++)
-        {
-            iter = locality + (i * size_ * comp) + j * comp;
-            temp += weights[i][j] * iter[0];
-        }
-    temp /= norm;
-    temp = std::min<int>(0xFF, std::max<int>(temp, 0x00));
-    point[0] = temp;
-    point[1] = temp;
-    point[2] = temp;
+    return mat_[i][j];
 }
 
 EdgeFilter::EdgeFilter(int t, int l, int b, int r)
-	: ConvFilter(t, l, b, r, EDGE_SIZE)
+    : ConvFilter(t, l, b, r, EDGE_SIZE, EDGE_NORM)
 {}
 
 void EdgeFilter::apply(png_toolkit& tool)
 {
-    BlWhFilter prefilter(t, l, b, r);
-    prefilter.apply(tool);
+    BlWhFilter preFilter(t, l, b, r);
+    preFilter.apply(tool);
     ConvFilter::apply(tool);
 }

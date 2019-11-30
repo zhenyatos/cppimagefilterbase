@@ -1,15 +1,14 @@
 #pragma once
-#include "AbstractFilter.h"
+#include "LocalityFilter.h"
 
-class ConvFilter : public AbstractFilter
+class ConvFilter : public LocalityFilter
 {
-protected:
-	int size_;
 private:
-	void formLocality(stbi_uc* locality, const png_toolkit& tool, int k, int l);
-	virtual void calc(stbi_uc* point, stbi_uc* locality, int comp) = 0;
+    void convolution(stbi_uc* point, const stbi_uc* locality, int comp);
+    virtual int mat(size_t i, size_t j) = 0;
+    const int norm;
 public:
-	ConvFilter(int t, int l, int b, int r, int size_);
-	virtual void apply(png_toolkit& tool) override;
-	virtual ~ConvFilter() { };
+    ConvFilter(int t, int l, int b, int r, int size_, int norm_);
+    virtual void apply(png_toolkit& tool) override;
+    virtual ~ConvFilter() { };
 };
