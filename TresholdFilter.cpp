@@ -3,7 +3,7 @@
 #include <vector>
 #include <algorithm>
 
-bool TresholdFilter::lessThanMedian(const stbi_uc* point, int I, int J, stbi_uc* locality, int comp)
+bool ThresholdFilter::lessThanMedian(const stbi_uc* point, int I, int J, stbi_uc* locality, int comp)
 {
     std::vector<stbi_uc> vec;
     int counter = 0;
@@ -23,11 +23,11 @@ bool TresholdFilter::lessThanMedian(const stbi_uc* point, int I, int J, stbi_uc*
     return false;
 }
 
-TresholdFilter::TresholdFilter(int t, int l, int b, int r)
+ThresholdFilter::ThresholdFilter(int t, int l, int b, int r)
     : LocalityFilter(t, l, b, r, TRESHOLD_SIZE)
 {}
 
-void TresholdFilter::apply(png_toolkit& tool)
+void ThresholdFilter::apply(png_toolkit& tool)
 {
     BlWhFilter preFilter(t, l, b, r);
     preFilter.apply(tool);

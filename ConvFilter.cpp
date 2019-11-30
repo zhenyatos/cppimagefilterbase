@@ -1,6 +1,5 @@
 #include "ConvFilter.h"
 #include <limits>
-#include <algorithm>
 
 const stbi_uc COLOR_MIN = std::numeric_limits<stbi_uc>::min();
 const stbi_uc COLOR_MAX = std::numeric_limits<stbi_uc>::max();
