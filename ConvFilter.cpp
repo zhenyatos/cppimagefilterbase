@@ -19,6 +19,7 @@ void ConvFilter::convolution(stbi_uc* point, const stbi_uc* locality, int comp)
 				temp += mat(i, j) * iter[k];
 			}
 		temp /= norm;
+		temp = std::max<int>(COLOR_MIN, std::min<int>(temp, COLOR_MAX));
 		point[k] = temp;
 	}
 }
@@ -54,9 +55,9 @@ void ConvFilter::apply(png_toolkit& tool)
 		{
 			iter = begin_ + j * comp;
 			stbi_uc* pixel = buffer + ((i-t) * (r-l) + (j-l)) * comp;
-			iter[0] = std::max<int>(COLOR_MIN, std::min<int>(pixel[0], COLOR_MAX));
-			iter[1] = std::max<int>(COLOR_MIN, std::min<int>(pixel[1], COLOR_MAX));
-			iter[2] = std::max<int>(COLOR_MIN, std::min<int>(pixel[2], COLOR_MAX));
+			iter[0] = pixel[0];
+			iter[1] = pixel[1];
+			iter[2] = pixel[2];
 		}
 	}
 

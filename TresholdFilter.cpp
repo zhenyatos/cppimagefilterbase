@@ -10,8 +10,8 @@ bool ThresholdFilter::lessThanMedian(const stbi_uc* point, int I, int J, stbi_uc
     for (int i = 0; i < size_; i++)
         for (int j = 0; j < size_; j++)
         {
-            int relX = I - 1 + i;
-            int relY = J - 1 + j;
+            int relX = I - (size_ / 2) + i;
+            int relY = J - (size_ / 2) + j;
             if (relX < t || relX >= b || relY < l || relY >= r)
                 continue;
             vec.push_back((locality + (i * size_ + j) * comp)[0]);
