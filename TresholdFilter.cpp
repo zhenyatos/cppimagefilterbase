@@ -35,6 +35,7 @@ void ThresholdFilter::apply(png_toolkit& tool)
     image_data data = tool.getPixelData();
     int comp = data.compPerPixel;
     stbi_uc* temp = new stbi_uc[comp * size_ * size_];
+    bool* cut = new bool[(b - t) * (r - l)];
 	stbi_uc *begin_, *iter;
 	begin_ = data.pixels;
 	for (int i = t; i < b; i++)
@@ -45,9 +46,23 @@ void ThresholdFilter::apply(png_toolkit& tool)
 			iter = begin_ + j * comp;
 			formLocality(temp, tool, i, j);
 			if (lessThanMedian(iter, i, j, temp, comp))
-                iter[0] = iter[1] = iter[2] = 0;
+                (cut + i * (r - l) + (j - l))[0] = true;
+            else
+                (cut + i * (r - l) + (j - l))[0] = false;
 		}
 	}
 
+	for (int i = t; i < b; i++)
+    {
+		begin_ = data.pixels + i * data.w * comp;
+		for (int j = l; j < r; j++)
+        {
+			iter = begin_ + j * comp;
+			if ((cut + i * (r - l) + (j - l))[0])
+                iter[0] = iter[1] = iter[2] = 0;
+        }
+    }
+
+    delete[] cut;
 	delete[] temp;
 }
